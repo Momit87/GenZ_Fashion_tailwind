@@ -33,18 +33,51 @@
                         'montserrat': ['Montserrat', 'sans-serif'],
                         'bebas': ['Bebas Neue', 'sans-serif'],
                     },
+                    screens: {
+                        'xs': '375px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                        '2xl': '1536px',
+                        '3xl': '1920px',
+                        '4xl': '2560px',
+                    }
                 }
             }
         }
     </script>
+    <style>
+        /* Mobile menu animation */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        /* Hamburger animation */
+        .hamburger span {
+            transition: all 0.3s ease-in-out;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
 </head>
 
-<body class="m-0 p-0 box-border font-roboto">
+<body class="m-0 p-0 box-border font-roboto overflow-x-hidden">
     <header class="bg-cream relative overflow-visible">
-        <div class="w-[90%] max-w-[1200px] mx-auto flex justify-between items-center py-5 relative">
-            <!-- Decorative dots pattern -->
+        <div class="w-[92%] sm:w-[90%] max-w-[1400px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] mx-auto flex justify-between items-center py-3 sm:py-4 lg:py-5 relative">
+            <!-- Decorative dots pattern - hidden on mobile -->
             <div
-                class="absolute w-[180px] h-[80px] left-[30%] top-[30%] -translate-y-1/2 z-10"
+                class="hidden md:block absolute w-[120px] lg:w-[180px] h-[50px] lg:h-[80px] left-[30%] lg:left-[35%] top-[28%] -translate-y-1/2 z-0"
                 style="
                     background: radial-gradient(circle, #ffe2aa 2px, transparent 3px);
                     background-size: 22px 15px;
@@ -52,147 +85,172 @@
                 "
             ></div>
 
-            <div class="flex items-center">
-                <img src="icons/logo_icon.png" alt="GenZ Fashion Logo" class="w-[50px] h-auto mr-5">
+            <!-- Logo -->
+            <div class="flex items-center z-10">
+                <img src="icons/logo_icon.png" alt="GenZ Fashion Logo" class="w-8 sm:w-10 lg:w-[50px] h-auto mr-2 sm:mr-3 lg:mr-5">
                 <div>
-                    <span class="font-montserrat text-[25.43px] font-bold text-primary">
-                        GenZ
-                    </span>
-                    <span class="font-montserrat text-[25.43px] font-bold text-text-main">
-                        Fashion
-                    </span>
+                    <span class="font-montserrat text-lg sm:text-xl lg:text-[25.43px] font-bold text-primary">GenZ</span>
+                    <span class="font-montserrat text-lg sm:text-xl lg:text-[25.43px] font-bold text-text-main"> Fashion</span>
                 </div>
             </div>
-            <nav>
-                <ul class="list-none flex">
-                    <li class="ml-16"><a href="#" class="font-roboto no-underline text-text-main font-medium text-base transition-colors duration-300 hover:text-primary">Home</a></li>
-                    <li class="ml-16"><a href="#" class="font-roboto no-underline text-text-main font-medium text-base transition-colors duration-300 hover:text-primary">Product</a></li>
-                    <li class="ml-16"><a href="#" class="font-roboto no-underline text-text-main font-medium text-base transition-colors duration-300 hover:text-primary">About us</a></li>
-                    <li class="ml-16"><a href="#" class="font-roboto no-underline text-text-main font-medium text-base transition-colors duration-300 hover:text-primary">Contact us</a></li>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:block z-10">
+                <ul class="list-none flex gap-6 xl:gap-10 2xl:gap-14">
+                    <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-sm xl:text-base transition-colors duration-300 hover:text-primary">Home</a></li>
+                    <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-sm xl:text-base transition-colors duration-300 hover:text-primary">Product</a></li>
+                    <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-sm xl:text-base transition-colors duration-300 hover:text-primary">About us</a></li>
+                    <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-sm xl:text-base transition-colors duration-300 hover:text-primary">Contact us</a></li>
                 </ul>
             </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button type="button" aria-label="Toggle menu" class="hamburger lg:hidden z-50 flex flex-col justify-center items-center w-8 h-8 gap-1.5" onclick="toggleMobileMenu()">
+                <span class="block w-6 h-0.5 bg-text-main"></span>
+                <span class="block w-6 h-0.5 bg-text-main"></span>
+                <span class="block w-6 h-0.5 bg-text-main"></span>
+            </button>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-menu fixed top-0 right-0 w-[75%] xs:w-[65%] sm:w-[50%] h-full bg-cream shadow-2xl z-40 lg:hidden">
+                <nav class="pt-20 px-6">
+                    <ul class="list-none flex flex-col gap-6">
+                        <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-lg transition-colors duration-300 hover:text-primary" onclick="toggleMobileMenu()">Home</a></li>
+                        <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-lg transition-colors duration-300 hover:text-primary" onclick="toggleMobileMenu()">Product</a></li>
+                        <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-lg transition-colors duration-300 hover:text-primary" onclick="toggleMobileMenu()">About us</a></li>
+                        <li><a href="#" class="font-roboto no-underline text-text-main font-medium text-lg transition-colors duration-300 hover:text-primary" onclick="toggleMobileMenu()">Contact us</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-
-
     </header>
-    <div class="flex justify-between items-center px-[148px] pb-[100px] pr-[180px] bg-cream">
-        <div class="max-w-full">
-            <p class="font-bebas text-[80px] font-normal text-accent">BE THE GENZS </p>
-            <p class="font-bebas text-[80px] font-normal text-text-main">OF WINTER</p>
-            <p class="font-roboto text-base text-text-main">Lorem Ipsum is simply dummy text of the printing<br> and typesetting industry.</p>
-            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 mr-[10px]"> BUY NOW
+
+    <!-- Hero Section -->
+    <div class="flex flex-col lg:flex-row justify-between items-center px-4 sm:px-8 md:px-12 lg:px-16 xl:px-[100px] 2xl:px-[148px] py-8 sm:py-12 lg:py-0 pb-12 sm:pb-16 lg:pb-[80px] xl:pb-[100px] bg-cream">
+        <div class="max-w-full text-center lg:text-left order-2 lg:order-1 mt-6 lg:mt-0">
+            <p class="font-bebas text-[40px] xs:text-[48px] sm:text-[56px] md:text-[64px] lg:text-[70px] xl:text-[80px] 2xl:text-[90px] 3xl:text-[100px] font-normal text-accent leading-[0.9]">BE THE GENZS</p>
+            <p class="font-bebas text-[40px] xs:text-[48px] sm:text-[56px] md:text-[64px] lg:text-[70px] xl:text-[80px] 2xl:text-[90px] 3xl:text-[100px] font-normal text-text-main leading-[0.9]">OF WINTER</p>
+            <p class="font-roboto text-sm sm:text-base lg:text-lg text-text-main mt-4 lg:mt-6 max-w-md mx-auto lg:mx-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <button type="button" class="flex items-center mx-auto lg:mx-0 mt-4 sm:mt-5 py-3 sm:py-4 lg:py-[18px] px-6 sm:px-8 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-sm sm:text-base">
+                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-[10px]"> BUY NOW
             </button>
         </div>
-        <div>
-            <img src="images/model.png" alt="Fashion Model">
+        <div class="order-1 lg:order-2 w-full lg:w-auto flex justify-center lg:justify-end">
+            <img src="images/model.png" alt="Fashion Model" class="w-[200px] xs:w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px] 3xl:w-[550px] h-auto object-contain">
         </div>
     </div>
 
-
-    <section class="py-10 bg-white">
-        <div class="w-[90%] max-w-[1200px] mx-auto flex flex-col items-start py-5">
+    <!-- Products Section -->
+    <section class="py-6 sm:py-8 lg:py-10 bg-white">
+        <div class="w-[92%] sm:w-[90%] max-w-[1400px] 3xl:max-w-[1600px] 4xl:max-w-[2000px] mx-auto flex flex-col items-start py-4 sm:py-5">
+            <!-- Woman Jacket Section -->
             <div>
-                <p class="font-bebas font-normal text-left text-[48px] mt-[30px] text-text-main mb-[30px]">Woman Jacket</p>
+                <p class="font-bebas font-normal text-left text-[32px] sm:text-[40px] lg:text-[48px] mt-4 sm:mt-6 lg:mt-[30px] text-text-main mb-4 sm:mb-6 lg:mb-[30px]">Woman Jacket</p>
             </div>
-            <div class="flex justify-between w-full">
-
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-1.png" alt="Yellow Coat Jacket" class="w-[293px] h-[310px]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 w-full">
+                <!-- Product Card 1 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-1.png" alt="Yellow Coat Jacket" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Yellow Coat Jacket</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Yellow Coat Jacket</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-2.png" alt="Ladies Jacket" class="w-[293px] h-[310px]">
+                <!-- Product Card 2 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-2.png" alt="Ladies Jacket" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Ladies Jacket</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Ladies Jacket</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-3.png" alt="Woman Leather Jacket" class="w-[293px] h-[310px]">
+                <!-- Product Card 3 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-3.png" alt="Woman Leather Jacket" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Woman Leather Jacket</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Woman Leather Jacket</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Man Jacket Section -->
             <div>
-                <p class="font-bebas font-normal text-left text-[48px] mt-[30px] text-text-main mb-[30px]">Man Jacket</p>
+                <p class="font-bebas font-normal text-left text-[32px] sm:text-[40px] lg:text-[48px] mt-8 sm:mt-10 lg:mt-[30px] text-text-main mb-4 sm:mb-6 lg:mb-[30px]">Man Jacket</p>
             </div>
-            <div class="flex justify-between w-full">
-
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-4.png" alt="Snowboard Jacket Mens" class="w-[293px] h-[310px]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 w-full">
+                <!-- Product Card 4 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-4.png" alt="Snowboard Jacket Mens" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Snowboard Jacket Mens</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Snowboard Jacket Mens</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-5.png" alt="Man Leather Jackets" class="w-[293px] h-[310px]">
+                <!-- Product Card 5 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-5.png" alt="Man Leather Jackets" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Man Leather Jackets</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Man Leather Jackets</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="w-[30%] bg-white p-5 text-center rounded-[20px] shadow-md">
-                    <div class="bg-gray-light rounded-[20px] p-5 mb-5">
-                        <img src="images/jacket-6.png" alt="Man Casual Jackets" class="w-[293px] h-[310px]">
+                <!-- Product Card 6 -->
+                <div class="bg-white p-3 sm:p-4 lg:p-5 text-center rounded-[15px] sm:rounded-[20px] shadow-md">
+                    <div class="bg-gray-light rounded-[15px] sm:rounded-[20px] p-3 sm:p-4 lg:p-5 mb-3 sm:mb-4 lg:mb-5">
+                        <img src="images/jacket-6.png" alt="Man Casual Jackets" class="w-full h-auto max-h-[200px] sm:max-h-[250px] lg:max-h-[310px] object-contain mx-auto">
                     </div>
                     <div class="text-left">
-                        <h3 class="font-roboto text-text-main text-2xl mt-[10px]">Man Casual Jackets</h3>
-                        <p class="font-roboto text-base text-text-main mt-[10px]">Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.</p>
-                        <div class="flex items-center justify-between mt-[10px] w-full">
-                            <p class="text-4xl font-bold text-accent">$234</p>
-                            <button class="flex items-center mt-[5px] py-[18px] px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover">
-                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-5 h-5 ml-[10px]">BUY NOW
+                        <h3 class="font-roboto text-text-main text-lg sm:text-xl lg:text-2xl mt-2">Man Casual Jackets</h3>
+                        <p class="font-roboto text-sm sm:text-base text-text-main mt-2 line-clamp-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between mt-3 sm:mt-4 w-full gap-3 xs:gap-0">
+                            <p class="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">$234</p>
+                            <button type="button" class="flex items-center py-2.5 sm:py-3 lg:py-[18px] px-4 sm:px-6 lg:px-[34px] bg-primary text-white border-none cursor-pointer font-medium rounded-[10px] transition-colors duration-300 hover:bg-primary-hover text-xs sm:text-sm lg:text-base">
+                                <img src="icons/shopping-cart 1.png" alt="Cart Icon" class="w-4 h-4 sm:w-5 sm:h-5 mr-2">BUY NOW
                             </button>
                         </div>
                     </div>
@@ -201,39 +259,67 @@
         </div>
     </section>
 
-    <section class="flex justify-center items-center gap-0 py-[60px] px-[100px]">
-        <div class="flex flex-col items-start w-[45%] gap-5 mx-0">
-            <div class="flex items-center bg-white p-5 rounded-lg shadow-md w-[75%]">
-                <img src="icons/house.png" alt="Find the Perfect Fit" class="w-[50px] h-[50px] mr-5 shrink-0">
+    <!-- Features Section -->
+    <section class="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-0 py-10 sm:py-12 lg:py-[60px] px-4 sm:px-8 md:px-12 lg:px-16 xl:px-[100px]">
+        <div class="flex flex-col items-center lg:items-start w-full lg:w-[50%] xl:w-[45%] gap-4 sm:gap-5">
+            <!-- Feature Card 1 -->
+            <div class="flex items-center bg-white p-4 sm:p-5 rounded-lg shadow-md w-full max-w-md lg:max-w-none lg:w-[90%] xl:w-[75%]">
+                <img src="icons/house.png" alt="Find the Perfect Fit" class="w-10 h-10 sm:w-[50px] sm:h-[50px] mr-4 sm:mr-5 shrink-0">
                 <div class="flex flex-col flex-1 font-roboto">
-                    <h3 class="text-xl font-bold text-text-main mb-[10px]">Find the Perfect Fit</h3>
-                    <p class="text-sm text-text-main">Everybody is different, which is why we<br>
-                        offer styles for every body.</p>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-text-main mb-1 sm:mb-2">Find the Perfect Fit</h3>
+                    <p class="text-xs sm:text-sm text-text-main">Everybody is different, which is why we offer styles for every body.</p>
                 </div>
             </div>
-            <div class="flex items-center bg-white p-5 rounded-lg shadow-md w-[75%]">
-                <img src="icons/box.png" alt="Free Exchanges" class="w-[50px] h-[50px] mr-5 shrink-0">
+            <!-- Feature Card 2 -->
+            <div class="flex items-center bg-white p-4 sm:p-5 rounded-lg shadow-md w-full max-w-md lg:max-w-none lg:w-[90%] xl:w-[75%]">
+                <img src="icons/box.png" alt="Free Exchanges" class="w-10 h-10 sm:w-[50px] sm:h-[50px] mr-4 sm:mr-5 shrink-0">
                 <div class="flex flex-col flex-1 font-roboto">
-                    <h3 class="text-xl font-bold text-text-main mb-[10px]">Free Exchanges</h3>
-                    <p class="text-sm text-text-main">One of the many reasons you can shop<br>
-                        with peace of mind.</p>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-text-main mb-1 sm:mb-2">Free Exchanges</h3>
+                    <p class="text-xs sm:text-sm text-text-main">One of the many reasons you can shop with peace of mind.</p>
                 </div>
-
             </div>
-            <div class="flex items-center bg-white p-5 rounded-lg shadow-md w-[75%]">
-                <img src="icons/question.png" alt="Contact Our Seller" class="w-[50px] h-[50px] mr-5 shrink-0">
+            <!-- Feature Card 3 -->
+            <div class="flex items-center bg-white p-4 sm:p-5 rounded-lg shadow-md w-full max-w-md lg:max-w-none lg:w-[90%] xl:w-[75%]">
+                <img src="icons/question.png" alt="Contact Our Seller" class="w-10 h-10 sm:w-[50px] sm:h-[50px] mr-4 sm:mr-5 shrink-0">
                 <div class="flex flex-col flex-1 font-roboto">
-                    <h3 class="text-xl font-bold text-text-main mb-[10px]">Contact Our Seller</h3>
-                    <p class="text-sm text-text-main">They are here to help you. That's quite <br>
-                        literally what we pay them for.</p>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-text-main mb-1 sm:mb-2">Contact Our Seller</h3>
+                    <p class="text-xs sm:text-sm text-text-main">They are here to help you. That's quite literally what we pay them for.</p>
                 </div>
             </div>
         </div>
-        <div class="w-[45%] flex justify-center items-center">
-            <img src="images/shopping.png" alt="Shopping Illustration" class="w-full max-w-[500px] h-auto">
+        <div class="w-full lg:w-[50%] xl:w-[45%] flex justify-center items-center order-first lg:order-last">
+            <img src="images/shopping.png" alt="Shopping Illustration" class="w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] h-auto">
         </div>
     </section>
 
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            mobileMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target) && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on window resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const hamburger = document.querySelector('.hamburger');
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>
