@@ -40,8 +40,17 @@
 </head>
 
 <body class="m-0 p-0 box-border font-roboto">
-    <header class="bg-cream">
-        <div class="w-[90%] max-w-[1200px] mx-auto flex justify-between items-center py-5">
+    <header class="bg-cream relative overflow-visible">
+        <div class="w-[90%] max-w-[1200px] mx-auto flex justify-between items-center py-5 relative">
+            <!-- Decorative dots pattern -->
+            <div
+                class="absolute w-[180px] h-[80px] left-[30%] top-[30%] -translate-y-1/2 z-10"
+                style="
+                    background: radial-gradient(circle, #ffe2aa 2px, transparent 3px);
+                    background-size: 22px 15px;
+                    background-repeat: repeat;
+                "
+            ></div>
 
             <div class="flex items-center">
                 <img src="icons/logo_icon.png" alt="GenZ Fashion Logo" class="w-[50px] h-auto mr-5">
